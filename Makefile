@@ -2,19 +2,19 @@ install:
 	uv sync --frozen && uv cache prune --ci
 
 collectstatic:
-	uv run python task_manager/manage.py collectstatic --noinput --clear
+	uv run python manage.py collectstatic --noinput --clear
 
 makemigrations:
-	uv run python task_manager/manage.py makemigrations
+	uv run python manage.py makemigrations
 
 migrate:
-	uv run python task_manager/manage.py migrate
+	uv run python manage.py migrate
 
 build:
 	./build.sh
 
 run:
-	uv run python task_manager/manage.py runserver
+	uv run python manage.py runserver
 
 lint:
 	uv run ruff check task_manager --fix
