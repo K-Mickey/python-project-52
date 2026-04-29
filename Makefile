@@ -4,12 +4,16 @@ install:
 collectstatic:
 	uv run python manage.py collectstatic --noinput --clear
 
-makemigrations:
-	uv run python manage.py makemigrations
-
 migrate:
+	uv run python manage.py makemigrations
 	uv run python manage.py migrate
 
+make-messages:
+	django-admin makemessages -l ru
+
+compile-messages:
+	django-admin compilemessages
+	
 build:
 	./build.sh
 
@@ -33,4 +37,4 @@ check: test lint
 render-start:
 	gunicorn task_manager.wsgi
 
-.PHONY: install collectstatic makemigrations migrate build lint format test test-coverage check render-start
+.PHONY: install collectstatic migrate build lint format test test-coverage check render-start

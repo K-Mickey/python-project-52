@@ -1,0 +1,63 @@
+<!doctype html>
+
+{% load i18n %}
+{% load django_bootstrap5 %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<html lang="{{ LANGUAGE_CODE }}">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% bootstrap_css %}
+    
+    <title>{% block title %}{% endblock %}</title>
+    
+  </head>
+  
+  <body class="d-flex flex-column min-vh-100">
+    <header>
+      {% include 'navbar.html' %}
+    </header>
+    
+    <main class="flex-grow-1 container">
+      {% bootstrap_messages %}
+      {% block content %}{% endblock %}
+    </main>
+    
+    <footer>
+      <div class="container flex-column mb-3 mt-2 pt-3 border-top">
+        <div class="row justify-content-evenly">
+          <div class="col-sm-auto my-1">
+            <a href="https://github.com/K-Mickey/python-project-52" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+          
+          <div class="col-sm-auto my-1">
+            <a href="https://hexlet.io" target="_blank" rel="noopener noreferrer">Hexlet</a>
+          </div>
+
+          <div class="col-sm-auto my-1">
+            <form action="{% url 'set_language' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.get_full_path }}"/>
+              <select name="language" onchange="this.form.submit()">
+                {% get_available_languages as LANGUAGES %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                  <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                    {{ lang_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </footer>
+    
+    {% bootstrap_javascript %}
+  </body>
+</html>
