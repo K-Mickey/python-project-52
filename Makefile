@@ -2,7 +2,7 @@ install:
 	uv sync --frozen && uv cache prune --ci
 
 collectstatic:
-	uv run python task_manager/manage.py collectstatic
+	uv run python task_manager/manage.py collectstatic --noinput --clear
 
 makemigrations:
 	uv run python task_manager/manage.py makemigrations
