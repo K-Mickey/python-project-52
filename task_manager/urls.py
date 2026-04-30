@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.i18n import set_language
 
+from task_manager.users.views import UserLoginView, UserLogoutView
 from task_manager.view import IndexView
 
 urlpatterns = [
@@ -30,5 +31,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("", IndexView.as_view(), name="index"),
+    path("login/", UserLoginView.as_view(), name="login"),
+    path("logout/", UserLogoutView.as_view(), name="logout"),
     path("users/", include("task_manager.users.urls")),
 )
