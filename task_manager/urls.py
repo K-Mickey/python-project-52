@@ -30,4 +30,5 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("", IndexView.as_view(), name="index"),
+    path("users/", include("task_manager.users.urls")),
 )
