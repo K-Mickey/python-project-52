@@ -1,10 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import ProtectedError
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from task_manager.mixins import AuthRequiredMixin, UserOwnershipMixin
 from task_manager.users.forms import UserForm
 from task_manager.users.models import User
 
@@ -47,6 +51,8 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 
 class UserUpdateView(
+    AuthRequiredMixin,
+    UserOwnershipMixin,
     SuccessMessageMixin,
     UpdateView,
 ):
@@ -55,6 +61,10 @@ class UserUpdateView(
     form_class = UserForm
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully updated")
+    auth_url = reverse_lazy("login")
+    auth_message = gettext_lazy("You are not logged in")
+    ownership_url = reverse_lazy("user_list")
+    ownership_message = gettext_lazy("You have no rights to change it.")
     extra_context = {
         "page_title": gettext_lazy("Update user"),
         "title": gettext_lazy("Update user"),
@@ -63,6 +73,8 @@ class UserUpdateView(
 
 
 class UserDeleteView(
+    AuthRequiredMixin,
+    UserOwnershipMixin,
     SuccessMessageMixin,
     DeleteView,
 ):
@@ -70,6 +82,17 @@ class UserDeleteView(
     model = User
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully deleted")
+    auth_url = reverse_lazy("login")
+    auth_message = gettext_lazy("You are not logged in")
+    ownership_url = reverse_lazy("user_list")
+    ownership_message = gettext_lazy("You have no rights to change it.")
     extra_context = {
         "page_title": gettext_lazy("Delete user"),
     }
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, gettext_lazy("Unable to delete user because he is being used"))
+            return redirect("user_list")
