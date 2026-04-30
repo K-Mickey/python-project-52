@@ -110,7 +110,7 @@ msgstr "Пользователь успешно зарегистрирован"
 
 #: task_manager/users/views.py:63
 msgid "User successfully updated"
-msgstr "Пользователь успешно обновлён"
+msgstr "Пользователь успешно изменен"
 
 #: task_manager/users/views.py:67 task_manager/users/views.py:68
 msgid "Update user"
@@ -118,7 +118,7 @@ msgstr "Обновить пользователя"
 
 #: task_manager/users/views.py:82
 msgid "User successfully deleted"
-msgstr "Пользователь успешно удалён"
+msgstr "Пользователь успешно удален"
 
 #: task_manager/users/views.py:93
 msgid "Unable to delete user because he is being used"

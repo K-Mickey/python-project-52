@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from task_manager.mixins import AuthRequiredMixin, UserOwnershipMixin
-from task_manager.users.forms import UserForm
+from task_manager.users.forms import UserForm, UserUpdateForm
 from task_manager.users.models import User
 
 
@@ -25,9 +25,13 @@ class UserLoginView(SuccessMessageMixin, LoginView):
     }
 
 
-class UserLogoutView(SuccessMessageMixin, LogoutView):
+class UserLogoutView(LogoutView):
     next_page = reverse_lazy("index")
     success_message = gettext_lazy("You are logged out")
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(request, self.success_message)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UserListView(ListView):
@@ -58,7 +62,7 @@ class UserUpdateView(
 ):
     template_name = "form.html"
     model = User
-    form_class = UserForm
+    form_class = UserUpdateForm
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully updated")
     auth_url = reverse_lazy("login")
