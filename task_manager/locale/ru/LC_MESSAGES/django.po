@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-30 15:59+0500\n"
+"POT-Creation-Date: 2026-04-30 16:34+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,13 +20,17 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: task_manager/templates/index.html:4 task_manager/templates/index.html:9
-#: task_manager/templates/navbar.html:6
+#: task_manager/templates/form.html:14
+msgid "Submit"
+msgstr ""
+
+#: task_manager/templates/index.html:7 task_manager/templates/navbar.html:6
+#: task_manager/view.py:10
 msgid "Task manager"
 msgstr "Менеджер задач"
 
 #: task_manager/templates/navbar.html:22
-#: task_manager/templates/users/users.html:11
+#: task_manager/templates/users/users.html:7 task_manager/users/views.py:14
 msgid "Users"
 msgstr "Пользователи"
 
@@ -34,26 +38,39 @@ msgstr "Пользователи"
 msgid "Log In"
 msgstr "Вход"
 
-#: task_manager/templates/navbar.html:28
+#: task_manager/templates/navbar.html:28 task_manager/users/views.py:24
+#: task_manager/users/views.py:25 task_manager/users/views.py:26
 msgid "Sign Up"
 msgstr "Регистрация"
 
-#: task_manager/templates/users/users.html:17
+#: task_manager/templates/users/users.html:13
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: task_manager/templates/users/users.html:18
+#: task_manager/templates/users/users.html:14
 msgid "Full name"
 msgstr "Полное имя"
 
-#: task_manager/templates/users/users.html:19
+#: task_manager/templates/users/users.html:15
 msgid "Creation date"
 msgstr "Дата создания"
 
-#: task_manager/templates/users/users.html:32
+#: task_manager/templates/users/users.html:28
 msgid "Update"
 msgstr "Изменить"
 
-#: task_manager/templates/users/users.html:34
+#: task_manager/templates/users/users.html:30
 msgid "Delete"
 msgstr "Удалить"
+
+#: task_manager/users/forms.py:9
+msgid "First name"
+msgstr "Полное имя"
+
+#: task_manager/users/forms.py:10
+msgid "Last name"
+msgstr "Фамилия"
+
+#: task_manager/users/views.py:22
+msgid "User is successfully registered"
+msgstr "Пользователь успешно зарегистрирован"
