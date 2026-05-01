@@ -1,0 +1,69 @@
+{
+  "create": {
+    "valid": {
+      "username": "test_user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "norm3342",
+      "password2": "norm3342"
+    },
+    "invalid": {
+      "username": "test user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "norm3342",
+      "password2": "norm3342"
+    },
+    "duplicate": {
+      "username": "jane",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "password1": "easy8342",
+      "password2": "easy8342"
+    },
+    "missing_fields": {
+      "username": "",
+      "first_name": "",
+      "last_name": "",
+      "password1": "norm3342",
+      "password2": "norm3342"
+    },
+    "password_mismatch": {
+      "username": "test_user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "norm3342",
+      "password2": "norm3343"
+    },
+    "password_too_short": {
+      "username": "test_user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "norm3",
+      "password2": "norm3"
+    },
+    "password_missing": {
+      "username": "test_user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "",
+      "password2": ""
+    }
+  },
+  "update": {
+    "valid": {
+      "username": "test_user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "norm3342",
+      "password2": "norm3342"
+    },
+    "invalid": {
+      "username": "test user",
+      "first_name": "Test",
+      "last_name": "User",
+      "password1": "norm3342",
+      "password2": "norm3342"
+    }
+  }
+}
