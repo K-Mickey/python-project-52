@@ -1,0 +1,21 @@
+{
+  "create": {
+    "valid": {
+      "name": "test_status"
+    },
+    "duplicate": {
+      "name": "test_status"
+    },
+    "invalid": {
+      "name": ""
+    }
+  },
+  "update": {
+    "valid": {
+      "name": "another_status"
+    },
+    "invalid": {
+      "name": ""
+    }
+  }
+}
