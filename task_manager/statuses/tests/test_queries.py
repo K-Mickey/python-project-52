@@ -11,7 +11,7 @@ class StatusListViewTest(StatusTestCase):
     def test_statuses_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "statuses/status_list.html")
+        self.assertTemplateUsed(response, "status_list.html")
 
 
 class CreateStatusViewTest(StatusTestCase):
@@ -44,4 +44,4 @@ class DeleteStatusViewTest(StatusTestCase):
     def test_delete_status_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "statuses/delete.html")
+        self.assertTemplateUsed(response, "delete.html")

@@ -13,7 +13,7 @@ class ListUsersViewTest(UserTestCase):
     def test_list_users_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/users.html")
+        self.assertTemplateUsed(response, "user_list.html")
 
     def test_list_users_view_context(self):
         response = self.client.get(self.url)
@@ -92,7 +92,7 @@ class DeleteUserViewTest(UserTestCase):
         self.client.force_login(self.user1)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "users/delete.html")
+        self.assertTemplateUsed(response, "delete.html")
 
     def test_delete_not_logged_user_view(self):
         response = self.client.get(self.url)

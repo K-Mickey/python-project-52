@@ -35,7 +35,7 @@ class UserLogoutView(LogoutView):
 
 
 class UserListView(ListView):
-    template_name = "users/users.html"
+    template_name = "user_list.html"
     model = User
     context_object_name = "users"
     extra_context = {"page_title": gettext_lazy("Users")}
@@ -82,7 +82,7 @@ class UserDeleteView(
     SuccessMessageMixin,
     DeleteView,
 ):
-    template_name = "users/delete.html"
+    template_name = "delete.html"
     model = User
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully deleted")
@@ -90,9 +90,13 @@ class UserDeleteView(
     auth_message = gettext_lazy("You are not logged in")
     ownership_url = reverse_lazy("user_list")
     ownership_message = gettext_lazy("You have no rights to change it.")
-    extra_context = {
-        "page_title": gettext_lazy("Delete user"),
-    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = gettext_lazy("Delete user")
+        context["title"] = gettext_lazy("Delete user")
+        context["deleting_object"] = self.object.get_full_name()
+        return context
 
     def post(self, request, *args, **kwargs):
         try:

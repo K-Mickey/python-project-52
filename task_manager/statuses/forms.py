@@ -1,4 +1,4 @@
-from django.forms import ModelForm, CharField
+from django.forms import CharField, ModelForm
 from django.utils.translation import gettext_lazy
 
 from task_manager.statuses.models import Status
