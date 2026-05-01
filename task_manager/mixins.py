@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy
 
 
 class AuthRequiredMixin(LoginRequiredMixin):
-    auth_message = None
-    auth_url = None
+    auth_url = reverse_lazy("login")
+    auth_message = gettext_lazy("You are not logged in")
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -16,8 +18,8 @@ class AuthRequiredMixin(LoginRequiredMixin):
 
 
 class UserOwnershipMixin(UserPassesTestMixin):
-    ownership_message = None
     ownership_url = None
+    ownership_message = gettext_lazy("You have no rights to change it.")
 
     def test_func(self):
         return self.request.user == self.get_object()

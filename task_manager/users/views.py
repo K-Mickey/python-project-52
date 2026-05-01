@@ -65,10 +65,7 @@ class UserUpdateView(
     form_class = UserUpdateForm
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully updated")
-    auth_url = reverse_lazy("login")
-    auth_message = gettext_lazy("You are not logged in")
     ownership_url = reverse_lazy("user_list")
-    ownership_message = gettext_lazy("You have no rights to change it.")
     extra_context = {
         "page_title": gettext_lazy("Update user"),
         "title": gettext_lazy("Update user"),
@@ -86,10 +83,7 @@ class UserDeleteView(
     model = User
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully deleted")
-    auth_url = reverse_lazy("login")
-    auth_message = gettext_lazy("You are not logged in")
     ownership_url = reverse_lazy("user_list")
-    ownership_message = gettext_lazy("You have no rights to change it.")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
