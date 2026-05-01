@@ -2,8 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import ProtectedError
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -94,10 +92,3 @@ class UserDeleteView(
         context["title"] = gettext_lazy("Delete user")
         context["deleting_object"] = self.object.get_full_name()
         return context
-
-    def post(self, request, *args, **kwargs):
-        try:
-            return super().post(request, *args, **kwargs)
-        except ProtectedError:
-            messages.error(request, gettext_lazy("Unable to delete user because he is being used"))
-            return redirect("user_list")
