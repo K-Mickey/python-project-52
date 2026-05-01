@@ -27,10 +27,12 @@ format:
 	uv run ruff format .
 
 test:
-	uv run pytest
+	uv run python manage.py test
 
 test-coverage:
-	uv run pytest --cov=task_manager --cov-report xml
+	uv run coverage run manage.py test
+	uv run coverage xml --include="task_manager/*" \
+		--omit="*/migrations/*","*/tests/*","task_manager/settings.py"
 
 check: test lint
 

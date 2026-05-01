@@ -11,6 +11,12 @@ dependencies = [
     "python-decouple>=3.8",
 ]
 
+[dependency-groups]
+dev = [
+    "coverage>=7.13.5",
+    "ruff>=0.15.12",
+]
+
 [tool.ruff]
 line-length = 120
 
@@ -20,10 +26,3 @@ select = ["E", "F", "I", "C90"]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-
-[dependency-groups]
-dev = [
-    "pytest>=9.0.3",
-    "pytest-cov>=7.1.0",
-    "ruff>=0.15.12",
-]
