@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
@@ -30,3 +31,15 @@ class UserOwnershipMixin(UserPassesTestMixin):
             messages.error(self.request, self.ownership_message)
             return redirect(self.ownership_url)
         return super().dispatch(request, *args, **kwargs)
+
+
+class ProtectedBoundFieldMixin:
+    protected_url = None
+    protected_message = None
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            return super().delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, self.protected_message)
+            return redirect(self.protected_url)

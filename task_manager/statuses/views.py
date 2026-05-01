@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from task_manager.mixins import AuthRequiredMixin
+from task_manager.mixins import AuthRequiredMixin, ProtectedBoundFieldMixin
 from task_manager.statuses.forms import StatusForm
 from task_manager.statuses.models import Status
 
@@ -53,6 +53,7 @@ class StatusUpdateView(
 
 class StatusDeleteView(
     AuthRequiredMixin,
+    ProtectedBoundFieldMixin,
     SuccessMessageMixin,
     DeleteView,
 ):
@@ -60,6 +61,8 @@ class StatusDeleteView(
     model = Status
     success_url = reverse_lazy("status_list")
     success_message = gettext_lazy("Status deleted successfully")
+    protected_url = reverse_lazy("status_list")
+    protected_message = gettext_lazy("Unable to delete status")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
