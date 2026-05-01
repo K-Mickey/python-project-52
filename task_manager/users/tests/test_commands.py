@@ -1,48 +1,60 @@
 from django.contrib.auth import get_user
+from django.contrib.messages import get_messages
 from django.urls import reverse
+from django.utils import translation
 
 from task_manager.users.models import User
 from task_manager.users.tests.testcase import UserTestCase
 
 
 class LoginTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("login")
-        super().setUp()
-
     def test_login_success(self):
         self.user1.set_password("secret382")
         self.user1.save()
 
-        response = self.client.post(
-            self.url,
-            data={
-                "username": self.user1.username,
-                "password": "secret382",
-            },
-        )
+        with translation.override("ru"):
+            url = reverse("login")
+            response = self.client.post(
+                url,
+                data={
+                    "username": self.user1.username,
+                    "password": "secret382",
+                },
+            )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("index"))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("index"))
 
         user = get_user(self.client)
         self.assertTrue(user.is_authenticated)
         self.assertEqual(user.username, self.user1.username)
 
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы залогинены",
+            [message.message for message in messages],
+        )
+
 
 class LogoutTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("logout")
-        super().setUp()
-
     def test_logout_success(self):
         self.client.force_login(self.user1)
         self.assertTrue(get_user(self.client).is_authenticated)
 
-        response = self.client.post(self.url)
-        self.assertEqual(response.status_code, 302)
+        with translation.override("ru"):
+            url = reverse("logout")
+            response = self.client.post(url)
+
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("index"))
 
         self.assertFalse(get_user(self.client).is_authenticated)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы разлогинены",
+            [message.message for message in messages],
+        )
 
 
 class CreateUserTest(UserTestCase):
@@ -52,13 +64,21 @@ class CreateUserTest(UserTestCase):
 
     def test_create_user_success(self):
         user_data = self.test_user["create"]["valid"]
-        response = self.client.post(self.url, data=user_data)
+        with translation.override("ru"):
+            url = reverse("user_create")
+            response = self.client.post(url, data=user_data)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("login"))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("login"))
 
         self.assertEqual(User.objects.count(), self.count + 1)
         self.assertEqual(User.objects.last().username, user_data["username"])
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Пользователь успешно зарегистрирован",
+            [message.message for message in messages],
+        )
 
     def test_create_invalid_username(self):
         user_data = self.test_user["create"]["invalid"]
@@ -125,18 +145,17 @@ class CreateUserTest(UserTestCase):
 
 
 class UpdateUserTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("user_update", kwargs={"pk": 1})
-        super().setUp()
-
     def test_update_user_success(self):
         self.client.force_login(self.user1)
 
         user_data = self.test_user["update"]["valid"]
-        response = self.client.post(self.url, data=user_data)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("user_list"))
+        with translation.override("ru"):
+            url = reverse("user_update", kwargs={"pk": 1})
+            response = self.client.post(url, data=user_data)
+
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("user_list"))
 
         self.user1.refresh_from_db()
         self.assertEqual(self.user1.first_name, user_data["first_name"])
@@ -144,11 +163,18 @@ class UpdateUserTest(UserTestCase):
 
         self.assertEqual(User.objects.count(), self.count)
 
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Пользователь успешно изменен",
+            [message.message for message in messages],
+        )
+
     def test_update_user_fail(self):
         self.client.force_login(self.user1)
 
         user_data = self.test_user["update"]["invalid"]
-        response = self.client.post(self.url, data=user_data)
+        url = reverse("user_update", kwargs={"pk": 1})
+        response = self.client.post(url, data=user_data)
 
         errors = response.context["form"].errors
         self.assertIn("username", errors)
@@ -164,49 +190,93 @@ class UpdateUserTest(UserTestCase):
         self.client.force_login(self.user2)
 
         user_data = self.test_user["update"]["valid"]
-        response = self.client.post(self.url, data=user_data)
+        with translation.override("ru"):
+            url = reverse("user_update", kwargs={"pk": 1})
+            response = self.client.post(url, data=user_data)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("user_list"))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("user_list"))
 
         self.user1.refresh_from_db()
         self.assertNotEqual(self.user1.first_name, user_data["first_name"])
         self.assertNotEqual(self.user1.last_name, user_data["last_name"])
         self.assertEqual(User.objects.count(), self.count)
 
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "У вас нет прав для изменения",
+            [message.message for message in messages],
+        )
+
+    def test_update_not_logged_user(self):
+        with translation.override("ru"):
+            url = reverse("user_update", kwargs={"pk": 1})
+            response = self.client.post(url)
+
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("login"))
+
+        self.assertEqual(User.objects.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы не залогинены",
+            [message.message for message in messages],
+        )
+
 
 class DeleteUserTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("user_delete", kwargs={"pk": 1})
-        super().setUp()
-
     def test_delete_user_success(self):
         self.client.force_login(self.user1)
 
-        response = self.client.post(self.url)
+        with translation.override("ru"):
+            url = reverse("user_delete", kwargs={"pk": 1})
+            response = self.client.post(url)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("user_list"))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("user_list"))
 
         self.assertEqual(User.objects.count(), self.count - 1)
 
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(pk=1)
 
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Пользователь успешно удален",
+            [message.message for message in messages],
+        )
+
     def test_delete_other_user(self):
         self.client.force_login(self.user2)
 
-        response = self.client.post(self.url)
+        with translation.override("ru"):
+            url = reverse("user_delete", kwargs={"pk": 1})
+            response = self.client.post(url)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("user_list"))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("user_list"))
 
         self.assertEqual(User.objects.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "У вас нет прав для изменения",
+            [message.message for message in messages],
+        )
 
     def test_delete_not_logged_user(self):
-        response = self.client.post(self.url)
+        with translation.override("ru"):
+            url = reverse("user_delete", kwargs={"pk": 1})
+            response = self.client.post(url)
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("login"))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("login"))
 
         self.assertEqual(User.objects.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы не залогинены",
+            [message.message for message in messages],
+        )
