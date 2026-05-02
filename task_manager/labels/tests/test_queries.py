@@ -69,3 +69,20 @@ class UpdateLabelViewTest(LabelTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
+
+
+class DeleteLabelViewTest(LabelTestCase):
+    def setUp(self):
+        self.url = reverse("label_delete", kwargs={"pk": 1})
+        super().setUp()
+
+    def test_delete_label_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "delete.html")
+
+    def test_delete_label_view_not_logged(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))

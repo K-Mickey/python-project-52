@@ -28,7 +28,7 @@
             <td>
               <a href="{% url 'label_update' label.id %}">{% trans 'Update' %}</a>
               <br>
-              <a href="#">{% trans 'Delete' %}</a>
+              <a href="{% url 'label_delete' label.id %}">{% trans 'Delete' %}</a>
             </td>
           </tr>
         {% endfor %}
