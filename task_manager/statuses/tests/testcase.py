@@ -6,7 +6,7 @@ from task_manager.users.models import User
 
 
 class StatusTestCase(TestCase):
-    fixtures = ["users.json", "statuses.json"]
+    fixtures = ["users.json", "statuses.json", "tasks.json", "labels.json"]
     test_status = load_data("task_manager/fixtures/test_status.json")
 
     def setUp(self):

@@ -280,3 +280,21 @@ class DeleteUserTest(UserTestCase):
             "Вы не залогинены",
             [message.message for message in messages],
         )
+
+    def test_delete_bound_user(self):
+        self.client.force_login(self.user3)
+
+        with translation.override("ru"):
+            url = reverse("user_delete", kwargs={"pk": 3})
+            response = self.client.post(url)
+
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("user_list"))
+
+        self.assertEqual(User.objects.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Невозможно удалить пользователя",
+            [message.message for message in messages],
+        )

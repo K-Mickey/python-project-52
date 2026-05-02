@@ -1,0 +1,46 @@
+[
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "name": "Test task",
+      "description": "Test description",
+      "author": 2,
+      "executor": 3,
+      "status": 3,
+      "date_created": "2020-01-01T00:00:00.000Z",
+      "labels": []
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "name": "Test task 2",
+      "description": "",
+      "author": 2,
+      "executor": 2,
+      "status": 3,
+      "date_created": "2020-01-01T00:00:00.000Z",
+      "labels": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "name": "Test task 3",
+      "description": "Description",
+      "author": 3,
+      "executor": 2,
+      "status": 2,
+      "date_created": "2020-01-01T00:00:00.000Z",
+      "labels": [
+        1,
+        2
+      ]
+    }
+  }
+]

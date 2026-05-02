@@ -155,3 +155,18 @@ class DeleteStatusTest(StatusTestCase):
             "Вы не залогинены",
             [message.message for message in messages],
         )
+
+    def test_delete_bound_status(self):
+        with translation.override("ru"):
+            response = self.client.post(reverse("status_delete", kwargs={"pk": 2}))
+
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("status_list"))
+
+        self.assertEqual(self.statuses.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Невозможно удалить статус",
+            [message.message for message in messages],
+        )
