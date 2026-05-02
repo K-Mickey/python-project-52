@@ -1,0 +1,10 @@
+{
+  "create": {
+    "valid": {
+      "name": "Test label"
+    },
+    "invalid": {
+      "name": null
+    }
+  }
+}
