@@ -47,3 +47,25 @@ class CreateLabelViewTest(LabelTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
+
+
+class UpdateLabelViewTest(LabelTestCase):
+    def setUp(self):
+        self.url = reverse("label_update", kwargs={"pk": 1})
+        super().setUp()
+
+    def test_update_label_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "form.html")
+
+    def test_update_label_view_context(self):
+        response = self.client.get(self.url)
+        form = response.context["form"]
+        self.assertTrue(isinstance(form, LabelForm))
+
+    def test_update_label_view_not_logged(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
