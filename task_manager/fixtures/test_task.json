@@ -7,15 +7,27 @@
       "status": 1
     },
     "invalid": {
-      "name": null,
+      "name": "",
       "description": "Test description",
       "executor": 2,
       "status": 1
     },
-    "missing_fields": {
-      "name": "",
+    "missing_description": {
+      "name": "Task name",
       "description": "",
+      "executor": 2,
+      "status": 1
+    },
+    "missing_executor": {
+      "name": "Task name",
+      "description": "Test description",
       "executor": "",
+      "status": 1
+    },
+    "missing_status": {
+      "name": "Task name",
+      "description": "Test description",
+      "executor": 2,
       "status": ""
     },
     "duplicate": {
