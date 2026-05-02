@@ -1,10 +1,11 @@
 from django.utils.translation import gettext_lazy
 from django.views.generic import ListView
 
+from task_manager.mixins import AuthRequiredMixin
 from task_manager.tasks.models import Task
 
 
-class TaskListView(ListView):
+class TaskListView(AuthRequiredMixin, ListView):
     template_name = "task_list.html"
     model = Task
     context_object_name = "tasks"

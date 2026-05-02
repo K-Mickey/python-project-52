@@ -15,3 +15,10 @@ class TaskListViewTest(TaskTestCase):
         context = response.context["tasks"]
         self.assertEqual(len(context), self.count)
         self.assertQuerySetEqual(context, self.tasks, ordered=False)
+
+    def test_task_list_not_logged(self):
+        self.client.logout()
+
+        response = self.client.get(reverse("task_list"))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
