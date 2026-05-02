@@ -1,6 +1,8 @@
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
-from django.views.generic import ListView
+from django.views.generic import CreateView, ListView
 
+from task_manager.labels.forms import LabelForm
 from task_manager.labels.models import Label
 from task_manager.mixins import AuthRequiredMixin
 
@@ -13,4 +15,21 @@ class LabelListView(AuthRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = gettext_lazy("Labels")
+        return context
+
+
+class LabelCreateView(
+    AuthRequiredMixin,
+    CreateView,
+):
+    template_name = "form.html"
+    model = Label
+    form_class = LabelForm
+    success_url = reverse_lazy("label_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = gettext_lazy("Create label")
+        context["title"] = gettext_lazy("Create label")
+        context["button_text"] = gettext_lazy("Create")
         return context

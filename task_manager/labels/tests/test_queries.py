@@ -1,5 +1,6 @@
 from django.urls import reverse
 
+from task_manager.labels.forms import LabelForm
 from task_manager.labels.tests.testcase import LabelTestCase
 
 
@@ -20,6 +21,28 @@ class LabelListViewTest(LabelTestCase):
         self.assertQuerySetEqual(context, self.labels, ordered=False)
 
     def test_labels_view_not_logger(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
+
+
+class CreateLabelViewTest(LabelTestCase):
+    def setUp(self):
+        self.url = reverse("label_create")
+        super().setUp()
+
+    def test_create_label_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "form.html")
+
+    def test_create_label_view_context(self):
+        response = self.client.get(self.url)
+        form = response.context["form"]
+        self.assertTrue(isinstance(form, LabelForm))
+
+    def test_create_label_view_not_logged(self):
         self.client.logout()
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
