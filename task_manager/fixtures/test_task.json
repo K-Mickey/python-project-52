@@ -45,7 +45,7 @@
       "status": 1
     },
     "invalid": {
-      "name": null,
+      "name": "",
       "description": "Test description",
       "executor": 2,
       "status": 1

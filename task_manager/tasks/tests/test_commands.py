@@ -81,3 +81,62 @@ class CreateTaskTest(TaskTestCase):
         errors = response.context["form"].errors
         self.assertIn("name", errors)
         self.assertIn("description", errors)
+
+
+class UpdateTaskTest(TaskTestCase):
+    def test_update_task(self):
+        data = self.test_task["update"]["valid"]
+        response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("task_list"))
+        self.assertEqual(self.tasks.count(), self.count)
+        self.assertEqual(Task.objects.get(pk=1).name, data["name"])
+
+    def test_update_task_invalid(self):
+        data = self.test_task["update"]["invalid"]
+        response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(Task.objects.get(pk=1).name, data["name"])
+
+        errors = response.context["form"].errors
+        self.assertIn("name", errors)
+
+    def test_update_not_logged_user(self):
+        self.client.logout()
+
+        data = self.test_task["update"]["valid"]
+        response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
+        self.assertNotEqual(Task.objects.get(pk=1).name, data["name"])
+
+
+class DeleteTaskTest(TaskTestCase):
+    def test_delete_task(self):
+        response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("task_list"))
+        self.assertEqual(self.tasks.count(), self.count - 1)
+
+        with self.assertRaises(Task.DoesNotExist):
+            Task.objects.get(pk=1)
+
+    def test_delete_not_logged_user(self):
+        self.client.logout()
+
+        response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
+        self.assertEqual(self.tasks.count(), self.count)
+
+    def test_delete_not_owner(self):
+        response = self.client.post(reverse("task_delete", kwargs={"pk": 3}))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("task_list"))
+        self.assertEqual(self.tasks.count(), self.count)
