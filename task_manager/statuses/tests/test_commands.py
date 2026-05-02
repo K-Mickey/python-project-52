@@ -11,7 +11,6 @@ class CreateStatusTest(StatusTestCase):
         data = self.test_status["create"]["valid"]
         with translation.override("ru"):
             response = self.client.post(reverse("status_create"), data=data)
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 
@@ -30,6 +29,7 @@ class CreateStatusTest(StatusTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(["This field is required."], errors["name"])
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.statuses.count(), self.count)
@@ -40,6 +40,7 @@ class CreateStatusTest(StatusTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(["Status with this Name already exists."], errors["name"])
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.statuses.count(), self.count)
@@ -50,6 +51,10 @@ class CreateStatusTest(StatusTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(
+            ["Ensure this value has at most 100 characters (it has 101)."],
+            errors["name"],
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.statuses.count(), self.count)
@@ -60,7 +65,6 @@ class CreateStatusTest(StatusTestCase):
         data = self.test_status["create"]["valid"]
         with translation.override("ru"):
             response = self.client.post(reverse("status_create"), data=data)
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -78,7 +82,6 @@ class UpdateStatusTest(StatusTestCase):
         data = self.test_status["update"]["valid"]
         with translation.override("ru"):
             response = self.client.post(reverse("status_update", kwargs={"pk": 1}), data=data)
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 
@@ -97,6 +100,7 @@ class UpdateStatusTest(StatusTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(["This field is required."], errors["name"])
 
         self.assertEqual(response.status_code, 200)
         self.assertNotEqual(Status.objects.get(pk=1).name, data["name"])
@@ -107,7 +111,6 @@ class UpdateStatusTest(StatusTestCase):
         data = self.test_status["update"]["valid"]
         with translation.override("ru"):
             response = self.client.post(reverse("status_update", kwargs={"pk": 1}), data=data)
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -124,12 +127,10 @@ class DeleteStatusTest(StatusTestCase):
     def test_delete_status_success(self):
         with translation.override("ru"):
             response = self.client.post(reverse("status_delete", kwargs={"pk": 1}))
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 
         self.assertEqual(self.statuses.count(), self.count - 1)
-
         with self.assertRaises(Status.DoesNotExist):
             Status.objects.get(pk=1)
 
@@ -144,7 +145,6 @@ class DeleteStatusTest(StatusTestCase):
 
         with translation.override("ru"):
             response = self.client.post(reverse("status_delete", kwargs={"pk": 1}))
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -159,7 +159,6 @@ class DeleteStatusTest(StatusTestCase):
     def test_delete_bound_status(self):
         with translation.override("ru"):
             response = self.client.post(reverse("status_delete", kwargs={"pk": 2}))
-
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 

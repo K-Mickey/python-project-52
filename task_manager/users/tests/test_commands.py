@@ -96,6 +96,10 @@ class CreateUserTest(UserTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("username", errors)
+        self.assertEqual(
+            ["A user with that username already exists."],
+            errors["username"],
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), self.count)
@@ -108,6 +112,14 @@ class CreateUserTest(UserTestCase):
         self.assertIn("username", errors)
         self.assertIn("first_name", errors)
         self.assertIn("last_name", errors)
+        self.assertEqual(
+            {
+                "username": ["This field is required."],
+                "first_name": ["This field is required."],
+                "last_name": ["This field is required."],
+            },
+            errors,
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), self.count)
@@ -118,6 +130,10 @@ class CreateUserTest(UserTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("password2", errors)
+        self.assertEqual(
+            ["The two password fields didn’t match."],
+            errors["password2"],
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), self.count)
@@ -128,6 +144,10 @@ class CreateUserTest(UserTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("password2", errors)
+        self.assertEqual(
+            ["This password is too short. It must contain at least 8 characters."],
+            errors["password2"],
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), self.count)
@@ -139,6 +159,13 @@ class CreateUserTest(UserTestCase):
         errors = response.context["form"].errors
         self.assertIn("password1", errors)
         self.assertIn("password2", errors)
+        self.assertEqual(
+            {
+                "password1": ["This field is required."],
+                "password2": ["This field is required."],
+            },
+            errors,
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), self.count)

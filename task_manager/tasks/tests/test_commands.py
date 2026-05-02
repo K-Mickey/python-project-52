@@ -37,6 +37,7 @@ class CreateTaskTest(TaskTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(["This field is required."], errors["name"])
 
     def test_create_task_missing_description(self):
         data = self.test_task["create"]["missing_description"]
@@ -52,6 +53,7 @@ class CreateTaskTest(TaskTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("executor", errors)
+        self.assertEqual(["This field is required."], errors["executor"])
 
     def test_create_task_missing_status(self):
         data = self.test_task["create"]["missing_status"]
@@ -61,6 +63,7 @@ class CreateTaskTest(TaskTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("status", errors)
+        self.assertEqual(["This field is required."], errors["status"])
 
     def test_create_task_duplicate(self):
         data = self.test_task["create"]["duplicate"]
@@ -70,6 +73,7 @@ class CreateTaskTest(TaskTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(["Task with this Name already exists."], errors["name"])
 
     def test_create_task_not_too_long(self):
         data = self.test_task["create"]["valid"].copy()
@@ -90,6 +94,13 @@ class CreateTaskTest(TaskTestCase):
         errors = response.context["form"].errors
         self.assertIn("name", errors)
         self.assertIn("description", errors)
+        self.assertEqual(
+            {
+                "name": ["Ensure this value has at most 150 characters (it has 151)."],
+                "description": ["Ensure this value has at most 1000 characters (it has 1001)."],
+            },
+            errors,
+        )
 
     def test_create_not_logged_user(self):
         self.client.logout()
@@ -135,6 +146,7 @@ class UpdateTaskTest(TaskTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
+        self.assertEqual(["This field is required."], errors["name"])
 
     def test_update_not_logged_user(self):
         self.client.logout()
