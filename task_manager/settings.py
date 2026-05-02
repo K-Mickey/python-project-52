@@ -14,10 +14,12 @@ from pathlib import Path
 
 import dj_database_url
 from decouple import Csv, config
+from django.conf.global_settings import DEFAULT_AUTO_FIELD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/

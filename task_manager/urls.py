@@ -24,12 +24,12 @@ from task_manager.users.views import UserLoginView, UserLogoutView
 from task_manager.view import IndexView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("i18n/setlang/", set_language, name="set_language"),
 ]
 
 urlpatterns += i18n_patterns(
+    path("admin/", admin.site.urls),
     path("", IndexView.as_view(), name="index"),
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
