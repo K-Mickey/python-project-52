@@ -1,8 +1,11 @@
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
+from django.views.generic import CreateView
 from django_filters.views import FilterView
 
 from task_manager.mixins import AuthRequiredMixin
 from task_manager.tasks.filters import TaskFilter
+from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.models import Task
 
 
@@ -16,3 +19,24 @@ class TaskListView(AuthRequiredMixin, FilterView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = gettext_lazy("Tasks")
         return context
+
+
+class TaskCreateView(
+    AuthRequiredMixin,
+    CreateView,
+):
+    template_name = "form.html"
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("task_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = gettext_lazy("Create task")
+        context["title"] = gettext_lazy("Create task")
+        context["button_text"] = gettext_lazy("Create")
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

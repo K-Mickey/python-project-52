@@ -17,7 +17,7 @@ class Task(Model):
     description = TextField(
         max_length=1000,
         blank=True,
-        null=True,
+        null=False,
         verbose_name=gettext_lazy("Description"),
     )
     status = ForeignKey(
@@ -42,6 +42,7 @@ class Task(Model):
         Label,
         through="TaskLabel",
         through_fields=("task", "label"),
+        blank=True,
         related_name="tasks",
         verbose_name=gettext_lazy("Labels"),
     )

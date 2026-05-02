@@ -1,5 +1,6 @@
 from django.urls import reverse
 
+from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.tests.testcase import TaskTestCase
 
 
@@ -10,7 +11,6 @@ class TaskListViewTest(TaskTestCase):
 
     def test_task_list_view(self):
         response = self.client.get(self.url)
-
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_list.html")
 
@@ -22,7 +22,6 @@ class TaskListViewTest(TaskTestCase):
 
     def test_task_list_not_logged(self):
         self.client.logout()
-
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
@@ -54,3 +53,25 @@ class TaskListViewTest(TaskTestCase):
         response = self.client.get(self.url, data={"author": 2, "executor": 2})
         self.assertEqual(response.context["tasks"].count(), 1)
         self.assertContains(response, self.task2.name)
+
+
+class CreateTaskViewTest(TaskTestCase):
+    def setUp(self):
+        self.url = reverse("task_create")
+        super().setUp()
+
+    def test_create_task_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "form.html")
+
+    def test_create_task_view_context(self):
+        response = self.client.get(self.url)
+        form = response.context["form"]
+        self.assertTrue(isinstance(form, TaskForm))
+
+    def test_create_task_view_not_logged(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
