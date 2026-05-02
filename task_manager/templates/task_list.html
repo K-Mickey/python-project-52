@@ -1,12 +1,40 @@
 {% extends "layout.html" %}
 
 {% load i18n %}
+{% load django_bootstrap5 %}
+{% load widget_tweaks %}
 
 {% block content %}
 
   <h1 class="my-3">{% trans 'Tasks' %}</h1>
 
   <a href="#" class="btn btn-primary my-3">{% trans 'Create task' %}</a>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <form method="get" class="d-flex flex-wrap gap-3 align-items-end">
+        <div class="flex-grow-1" style="min-width: 150px">
+          {{ filter.form.status.label_tag }}
+          {{ filter.form.status|add_class:"form-control" }}
+        </div>
+        <div class="flex-grow-1" style="min-width: 150px">
+          {{ filter.form.author.label_tag }}
+          {{ filter.form.author|add_class:"form-control" }}
+        </div>
+        <div class="flex-grow-1" style="min-width: 150px">
+          {{ filter.form.executor.label_tag }}
+          {{ filter.form.executor|add_class:"form-control" }}
+        </div>
+        <div class="flex-grow-1" style="min-width: 150px">
+          {{ filter.form.labels.label_tag }}
+          {{ filter.form.labels|add_class:"form-control" }}
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">{% trans 'Show' %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <table class="table table-striped">
     <thead>
