@@ -4,7 +4,18 @@
       "name": "Test label"
     },
     "invalid": {
-      "name": null
+      "name": ""
+    },
+    "duplicate": {
+      "name": "First"
+    }
+  },
+  "update": {
+    "valid": {
+      "name": "Test label"
+    },
+    "invalid": {
+      "name": ""
     }
   }
 }

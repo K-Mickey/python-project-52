@@ -1,5 +1,5 @@
 from task_manager.labels.models import Label
-from task_manager.labels.tests import LabelTestCase
+from task_manager.labels.tests.testcase import LabelTestCase
 
 
 class LabelModelTest(LabelTestCase):

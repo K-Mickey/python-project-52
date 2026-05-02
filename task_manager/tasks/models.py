@@ -1,4 +1,4 @@
-from django.db.models import PROTECT, CharField, DateTimeField, ForeignKey, ManyToManyField, Model, TextField, CASCADE
+from django.db.models import CASCADE, PROTECT, CharField, DateTimeField, ForeignKey, ManyToManyField, Model, TextField
 from django.utils.translation import gettext_lazy
 
 from task_manager.labels.models import Label
