@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from task_manager.mixins import AuthRequiredMixin, ProtectedBoundFieldMixin, UserOwnershipMixin
+from task_manager.mixins import AuthorProtectionMixin, AuthRequiredMixin, BoundProtectionMixin
 from task_manager.users.forms import UserForm, UserUpdateForm
 from task_manager.users.models import User
 
@@ -54,7 +54,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 class UserUpdateView(
     AuthRequiredMixin,
-    UserOwnershipMixin,
+    AuthorProtectionMixin,
     SuccessMessageMixin,
     UpdateView,
 ):
@@ -63,7 +63,7 @@ class UserUpdateView(
     form_class = UserUpdateForm
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully updated")
-    ownership_url = reverse_lazy("user_list")
+    permission_url = reverse_lazy("user_list")
     extra_context = {
         "page_title": gettext_lazy("Update user"),
         "title": gettext_lazy("Update user"),
@@ -73,8 +73,8 @@ class UserUpdateView(
 
 class UserDeleteView(
     AuthRequiredMixin,
-    UserOwnershipMixin,
-    ProtectedBoundFieldMixin,
+    AuthorProtectionMixin,
+    BoundProtectionMixin,
     SuccessMessageMixin,
     DeleteView,
 ):
@@ -84,7 +84,7 @@ class UserDeleteView(
     success_message = gettext_lazy("User successfully deleted")
     protected_url = reverse_lazy("user_list")
     protected_message = gettext_lazy("Unable to delete user")
-    ownership_url = reverse_lazy("user_list")
+    permission_url = reverse_lazy("user_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

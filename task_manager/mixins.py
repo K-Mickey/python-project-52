@@ -18,22 +18,27 @@ class AuthRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class UserOwnershipMixin(UserPassesTestMixin):
-    ownership_url = None
-    ownership_message = gettext_lazy("You have no rights to change it.")
+class AuthorProtectionMixin(UserPassesTestMixin):
+    author_field = None
+    permission_url = None
+    permission_message = gettext_lazy("You have no rights to change it.")
 
     def test_func(self):
-        return self.request.user == self.get_object()
+        request_user = self.request.user
+        obj = self.get_object()
+        if self.author_field:
+            return getattr(obj, self.author_field) == request_user
+        return request_user == obj
 
     def dispatch(self, request, *args, **kwargs):
         user_test_result = self.test_func()
         if not user_test_result:
-            messages.error(self.request, self.ownership_message)
-            return redirect(self.ownership_url)
+            messages.error(self.request, self.permission_message)
+            return redirect(self.permission_url)
         return super().dispatch(request, *args, **kwargs)
 
 
-class ProtectedBoundFieldMixin:
+class BoundProtectionMixin:
     protected_url = None
     protected_message = None
 

@@ -25,4 +25,4 @@ class TaskTestCase(TestCase):
         self.label = Label.objects.get(pk=1)
 
         self.client = Client()
-        self.client.force_login(self.user1)
+        self.client.force_login(self.user2)

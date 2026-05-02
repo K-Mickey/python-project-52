@@ -60,9 +60,9 @@
             <td>{{ task.executor }}</td>
             <td>{{ user.date_created|date:"d.m.Y H:i" }}</td>
             <td>
-              <a href="#">{% trans 'Update' %}</a>
+              <a href="{% url 'task_update' task.id %}">{% trans 'Update' %}</a>
               <br>
-              <a href="#">{% trans 'Delete' %}</a>
+              <a href="{% url 'task_delete' task.id %}">{% trans 'Delete' %}</a>
             </td>
           </tr>
         {% endfor %}

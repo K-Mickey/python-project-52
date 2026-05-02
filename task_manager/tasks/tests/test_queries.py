@@ -97,3 +97,20 @@ class UpdateTaskViewTest(TaskTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
+
+
+class DeleteTaskViewTest(TaskTestCase):
+    def setUp(self):
+        self.url = reverse("task_delete", kwargs={"pk": 1})
+        super().setUp()
+
+    def test_delete_task_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "delete.html")
+
+    def test_delete_task_view_not_logged(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))
