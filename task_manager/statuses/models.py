@@ -12,7 +12,7 @@ class Status(models.Model):
     )
     date_created = models.DateTimeField(
         auto_now_add=True,
-        verbose_name=gettext_lazy("Date created"),
+        verbose_name=gettext_lazy("Creation date"),
     )
 
     def __str__(self):

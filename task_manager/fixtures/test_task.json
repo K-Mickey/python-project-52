@@ -1,0 +1,10 @@
+{
+  "create": {
+    "valid": {
+      "name": "Test task",
+      "description": "Test description",
+      "executor": 2,
+      "status": 1
+    }
+  }
+}
