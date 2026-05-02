@@ -4,22 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('labels', '0001_initial'),
-        ('tasks', '0002_task_author'),
+        ("labels", "0001_initial"),
+        ("tasks", "0002_task_author"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='task',
-            name='description',
-            field=models.TextField(blank=True, default=1, max_length=1000, verbose_name='Description'),
+            model_name="task",
+            name="description",
+            field=models.TextField(blank=True, default=1, max_length=1000, verbose_name="Description"),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='task',
-            name='labels',
-            field=models.ManyToManyField(blank=True, related_name='tasks', through='tasks.TaskLabel', through_fields=('task', 'label'), to='labels.label', verbose_name='Labels'),
+            model_name="task",
+            name="labels",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="tasks",
+                through="tasks.TaskLabel",
+                through_fields=("task", "label"),
+                to="labels.label",
+                verbose_name="Labels",
+            ),
         ),
     ]

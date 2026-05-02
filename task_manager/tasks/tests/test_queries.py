@@ -75,3 +75,25 @@ class CreateTaskViewTest(TaskTestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse("login"))
+
+
+class UpdateTaskViewTest(TaskTestCase):
+    def setUp(self):
+        self.url = reverse("task_update", kwargs={"pk": 1})
+        super().setUp()
+
+    def test_update_task_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "form.html")
+
+    def test_update_task_view_context(self):
+        response = self.client.get(self.url)
+        form = response.context["form"]
+        self.assertTrue(isinstance(form, TaskForm))
+
+    def test_update_task_view_not_logged(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("login"))

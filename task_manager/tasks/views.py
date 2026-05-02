@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django_filters.views import FilterView
 
 from task_manager.mixins import AuthRequiredMixin
@@ -40,3 +40,20 @@ class TaskCreateView(
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class TaskUpdateView(
+    AuthRequiredMixin,
+    UpdateView,
+):
+    template_name = "form.html"
+    model = Task
+    form_class = TaskForm
+    success_url = reverse_lazy("task_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = gettext_lazy("Update task")
+        context["title"] = gettext_lazy("Update task")
+        context["button_text"] = gettext_lazy("Update")
+        return context
