@@ -58,7 +58,7 @@
             <td>{{ task.status }}</td>
             <td>{{ task.author }}</td>
             <td>{{ task.executor }}</td>
-            <td>{{ user.date_created|date:"d.m.Y H:i" }}</td>
+            <td>{{ task.date_created|date:"d.m.Y H:i" }}</td>
             <td>
               <a href="{% url 'task_update' task.id %}">{% trans 'Update' %}</a>
               <br>
