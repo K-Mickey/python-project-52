@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from task_manager.mixins import AuthorProtectionMixin, AuthRequiredMixin
@@ -75,4 +75,15 @@ class TaskDeleteView(
         context["page_title"] = gettext_lazy("Delete task")
         context["title"] = gettext_lazy("Delete task")
         context["deleting_object"] = self.object.name
+        return context
+
+
+class TaskDetailView(AuthRequiredMixin, DetailView):
+    template_name = "task_detail.html"
+    model = Task
+    context_object_name = "task"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = self.object.name
         return context
