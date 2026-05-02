@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
@@ -23,12 +24,14 @@ class TaskListView(AuthRequiredMixin, FilterView):
 
 class TaskCreateView(
     AuthRequiredMixin,
+    SuccessMessageMixin,
     CreateView,
 ):
     template_name = "form.html"
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("task_list")
+    success_message = gettext_lazy("Task successfully created")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,12 +47,14 @@ class TaskCreateView(
 
 class TaskUpdateView(
     AuthRequiredMixin,
+    SuccessMessageMixin,
     UpdateView,
 ):
     template_name = "form.html"
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("task_list")
+    success_message = gettext_lazy("Task successfully updated")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,13 +67,16 @@ class TaskUpdateView(
 class TaskDeleteView(
     AuthRequiredMixin,
     AuthorProtectionMixin,
+    SuccessMessageMixin,
     DeleteView,
 ):
     template_name = "delete.html"
     model = Task
     success_url = reverse_lazy("task_list")
+    success_message = gettext_lazy("Task successfully deleted")
     author_field = "author"
     permission_url = reverse_lazy("task_list")
+    permission_message = gettext_lazy("The task can be deleted only by its author")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

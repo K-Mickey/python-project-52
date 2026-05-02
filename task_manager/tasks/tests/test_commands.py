@@ -1,4 +1,6 @@
+from django.contrib.messages import get_messages
 from django.urls import reverse
+from django.utils import translation
 
 from task_manager.tasks.models import Task
 from task_manager.tasks.tests.testcase import TaskTestCase
@@ -7,10 +9,11 @@ from task_manager.tasks.tests.testcase import TaskTestCase
 class CreateTaskTest(TaskTestCase):
     def test_create_task(self):
         data = self.test_task["create"]["valid"]
-        response = self.client.post(reverse("task_create"), data=data)
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_create"), data=data)
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("task_list"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("task_list"))
         self.assertEqual(self.tasks.count(), self.count + 1)
 
         last_task = Task.objects.last()
@@ -19,6 +22,12 @@ class CreateTaskTest(TaskTestCase):
         self.assertEqual(last_task.executor, self.user2)
         self.assertEqual(last_task.status, self.status)
         self.assertEqual(last_task.author, self.user2)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Задача успешно создана",
+            [message.message for message in messages],
+        )
 
     def test_create_task_missing_name(self):
         data = self.test_task["create"]["invalid"]
@@ -82,16 +91,40 @@ class CreateTaskTest(TaskTestCase):
         self.assertIn("name", errors)
         self.assertIn("description", errors)
 
+    def test_create_not_logged_user(self):
+        self.client.logout()
+
+        data = self.test_task["create"]["valid"]
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_create"), data=data)
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("login"))
+
+        self.assertEqual(self.tasks.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы не залогинены",
+            [message.message for message in messages],
+        )
+
 
 class UpdateTaskTest(TaskTestCase):
     def test_update_task(self):
         data = self.test_task["update"]["valid"]
-        response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("task_list"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("task_list"))
         self.assertEqual(self.tasks.count(), self.count)
         self.assertEqual(Task.objects.get(pk=1).name, data["name"])
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Задача успешно изменена",
+            [message.message for message in messages],
+        )
 
     def test_update_task_invalid(self):
         data = self.test_task["update"]["invalid"]
@@ -107,36 +140,63 @@ class UpdateTaskTest(TaskTestCase):
         self.client.logout()
 
         data = self.test_task["update"]["valid"]
-        response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("login"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("login"))
         self.assertNotEqual(Task.objects.get(pk=1).name, data["name"])
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы не залогинены",
+            [message.message for message in messages],
+        )
 
 
 class DeleteTaskTest(TaskTestCase):
     def test_delete_task(self):
-        response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("task_list"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("task_list"))
         self.assertEqual(self.tasks.count(), self.count - 1)
-
         with self.assertRaises(Task.DoesNotExist):
             Task.objects.get(pk=1)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Задача успешно удалена",
+            [message.message for message in messages],
+        )
 
     def test_delete_not_logged_user(self):
         self.client.logout()
 
-        response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("login"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("login"))
         self.assertEqual(self.tasks.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Вы не залогинены",
+            [message.message for message in messages],
+        )
 
     def test_delete_not_owner(self):
-        response = self.client.post(reverse("task_delete", kwargs={"pk": 3}))
+        with translation.override("ru"):
+            response = self.client.post(reverse("task_delete", kwargs={"pk": 3}))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("task_list"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("task_list"))
         self.assertEqual(self.tasks.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Задачу может удалить только ее автор",
+            [message.message for message in messages],
+        )
