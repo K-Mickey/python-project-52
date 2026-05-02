@@ -126,6 +126,18 @@ class TaskDetailViewTest(TaskTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_detail.html")
 
+    def test_task_detail_view_context(self):
+        response = self.client.get(self.url)
+
+        self.assertContains(response, self.task1.name)
+        self.assertContains(response, self.task1.description)
+        self.assertContains(response, self.task1.status)
+        self.assertContains(response, self.task1.author)
+        self.assertContains(response, self.task1.executor)
+
+        for label in self.task1.labels.all():
+            self.assertContains(response, label.name)
+
     def test_task_detail_view_not_logged(self):
         self.client.logout()
         response = self.client.get(self.url)
