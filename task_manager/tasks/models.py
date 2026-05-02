@@ -1,4 +1,4 @@
-from django.db.models import PROTECT, CharField, DateTimeField, ForeignKey, ManyToManyField, Model, TextField
+from django.db.models import PROTECT, CharField, DateTimeField, ForeignKey, ManyToManyField, Model, TextField, CASCADE
 from django.utils.translation import gettext_lazy
 
 from task_manager.labels.models import Label
@@ -60,5 +60,5 @@ class Task(Model):
 
 
 class TaskLabel(Model):
-    task = ForeignKey(Task, on_delete=PROTECT)
+    task = ForeignKey(Task, on_delete=CASCADE)
     label = ForeignKey(Label, on_delete=PROTECT)
