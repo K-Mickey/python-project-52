@@ -1,7 +1,39 @@
 {
   "create": {
     "valid": {
+      "name": "Task name",
+      "description": "Test description",
+      "executor": 2,
+      "status": 1
+    },
+    "invalid": {
+      "name": null,
+      "description": "Test description",
+      "executor": 2,
+      "status": 1
+    },
+    "missing_fields": {
+      "name": "",
+      "description": "",
+      "executor": "",
+      "status": ""
+    },
+    "duplicate": {
       "name": "Test task",
+      "description": "Test description",
+      "executor": 3,
+      "status": 3
+    }
+  },
+  "update": {
+    "valid": {
+      "name": "New task name",
+      "description": "New task description",
+      "executor": 2,
+      "status": 1
+    },
+    "invalid": {
+      "name": null,
       "description": "Test description",
       "executor": 2,
       "status": 1
