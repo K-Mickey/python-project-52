@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-02 22:30+0500\n"
+"POT-Creation-Date: 2026-05-02 23:24+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: task_manager/labels/apps.py:7 task_manager/labels/models.py:23
-#: task_manager/labels/views.py:17 task_manager/tasks/admin.py:11
+#: task_manager/labels/views.py:18 task_manager/tasks/admin.py:11
 #: task_manager/tasks/filters.py:10 task_manager/tasks/models.py:47
 #: task_manager/templates/label_list.html:7
 #: task_manager/templates/navbar.html:29
@@ -51,21 +51,29 @@ msgstr "Дата создания"
 msgid "Label"
 msgstr "Метка"
 
-#: task_manager/labels/views.py:32 task_manager/labels/views.py:33
+#: task_manager/labels/views.py:31
+msgid "Label created successfully"
+msgstr "Метка успешно создана"
+
+#: task_manager/labels/views.py:35 task_manager/labels/views.py:36
 #: task_manager/templates/label_list.html:9
 msgid "Create label"
 msgstr "Создать метку"
 
-#: task_manager/labels/views.py:34 task_manager/statuses/views.py:33
+#: task_manager/labels/views.py:37 task_manager/statuses/views.py:33
 #: task_manager/tasks/views.py:40
 msgid "Create"
 msgstr "Создать"
 
-#: task_manager/labels/views.py:49 task_manager/labels/views.py:50
+#: task_manager/labels/views.py:50
+msgid "Label updated successfully"
+msgstr "Метка успешно изменена"
+
+#: task_manager/labels/views.py:54 task_manager/labels/views.py:55
 msgid "Update label"
 msgstr "Обновить метку"
 
-#: task_manager/labels/views.py:51 task_manager/statuses/views.py:50
+#: task_manager/labels/views.py:56 task_manager/statuses/views.py:50
 #: task_manager/tasks/views.py:63 task_manager/templates/label_list.html:29
 #: task_manager/templates/status_list.html:29
 #: task_manager/templates/task_detail.html:45
@@ -74,11 +82,15 @@ msgstr "Обновить метку"
 msgid "Update"
 msgstr "Изменить"
 
-#: task_manager/labels/views.py:64
+#: task_manager/labels/views.py:69
+msgid "Label deleted successfully"
+msgstr "Метка успешно удалена"
+
+#: task_manager/labels/views.py:71
 msgid "Unable to delete label"
 msgstr "Невозможно удалить метку"
 
-#: task_manager/labels/views.py:68 task_manager/labels/views.py:69
+#: task_manager/labels/views.py:75 task_manager/labels/views.py:76
 msgid "Delete label"
 msgstr "Удалить метку"
 

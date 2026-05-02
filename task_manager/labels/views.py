@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -20,12 +21,14 @@ class LabelListView(AuthRequiredMixin, ListView):
 
 class LabelCreateView(
     AuthRequiredMixin,
+    SuccessMessageMixin,
     CreateView,
 ):
     template_name = "form.html"
     model = Label
     form_class = LabelForm
     success_url = reverse_lazy("label_list")
+    success_message = gettext_lazy("Label created successfully")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -37,12 +40,14 @@ class LabelCreateView(
 
 class LabelUpdateView(
     AuthRequiredMixin,
+    SuccessMessageMixin,
     UpdateView,
 ):
     template_name = "form.html"
     model = Label
     form_class = LabelForm
     success_url = reverse_lazy("label_list")
+    success_message = gettext_lazy("Label updated successfully")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,11 +60,13 @@ class LabelUpdateView(
 class LabelDeleteView(
     AuthRequiredMixin,
     BoundProtectionMixin,
+    SuccessMessageMixin,
     DeleteView,
 ):
     template_name = "delete.html"
     model = Label
     success_url = reverse_lazy("label_list")
+    success_message = gettext_lazy("Label deleted successfully")
     protected_url = reverse_lazy("label_list")
     protected_message = gettext_lazy("Unable to delete label")
 

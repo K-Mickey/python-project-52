@@ -9,12 +9,19 @@ from task_manager.labels.tests.testcase import LabelTestCase
 class CreateLabelTest(LabelTestCase):
     def test_create_label(self):
         data = self.test_label["create"]["valid"]
-        response = self.client.post(reverse("label_create"), data=data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("label_list"))
+        with translation.override("ru"):
+            response = self.client.post(reverse("label_create"), data=data)
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("label_list"))
 
         self.assertEqual(Label.objects.count(), self.count + 1)
         self.assertEqual(Label.objects.last().name, data["name"])
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Метка успешно создана",
+            [message.message for message in messages],
+        )
 
     def test_create_label_invalid(self):
         data = self.test_label["create"]["invalid"]
@@ -66,12 +73,19 @@ class CreateLabelTest(LabelTestCase):
 class UpdateLabelTest(LabelTestCase):
     def test_update_label(self):
         data = self.test_label["update"]["valid"]
-        response = self.client.post(reverse("label_update", kwargs={"pk": 1}), data=data)
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("label_list"))
+        with translation.override("ru"):
+            response = self.client.post(reverse("label_update", kwargs={"pk": 1}), data=data)
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("label_list"))
 
         self.assertEqual(Label.objects.get(pk=1).name, data["name"])
         self.assertEqual(Label.objects.count(), self.count)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Метка успешно изменена",
+            [message.message for message in messages],
+        )
 
     def test_update_label_invalid(self):
         data = self.test_label["update"]["invalid"]
@@ -103,13 +117,20 @@ class UpdateLabelTest(LabelTestCase):
 
 class DeleteLabelTest(LabelTestCase):
     def test_delete_label(self):
-        response = self.client.post(reverse("label_delete", kwargs={"pk": 3}))
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("label_list"))
+        with translation.override("ru"):
+            response = self.client.post(reverse("label_delete", kwargs={"pk": 3}))
+            self.assertEqual(response.status_code, 302)
+            self.assertRedirects(response, reverse("label_list"))
 
         self.assertEqual(Label.objects.count(), self.count - 1)
         with self.assertRaises(Label.DoesNotExist):
             Label.objects.get(pk=3)
+
+        messages = get_messages(response.wsgi_request)
+        self.assertIn(
+            "Метка успешно удалена",
+            [message.message for message in messages],
+        )
 
     def test_delete_label_not_logged_user(self):
         self.client.logout()
