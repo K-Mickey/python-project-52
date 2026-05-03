@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-02 23:24+0500\n"
+"POT-Creation-Date: 2026-05-03 15:48+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,7 @@ msgstr ""
 
 #: task_manager/labels/apps.py:7 task_manager/labels/models.py:23
 #: task_manager/labels/views.py:18 task_manager/tasks/admin.py:11
-#: task_manager/tasks/filters.py:10 task_manager/tasks/models.py:47
-#: task_manager/templates/label_list.html:7
+#: task_manager/tasks/models.py:47 task_manager/templates/label_list.html:7
 #: task_manager/templates/navbar.html:29
 #: task_manager/templates/task_detail.html:34
 msgid "Labels"
@@ -48,6 +47,7 @@ msgid "Creation date"
 msgstr "Дата создания"
 
 #: task_manager/labels/models.py:22 task_manager/tasks/admin.py:10
+#: task_manager/tasks/filters.py:11
 msgid "Label"
 msgstr "Метка"
 
@@ -149,6 +149,10 @@ msgstr "Удалить статус"
 msgid "Tasks"
 msgstr "Задачи"
 
+#: task_manager/tasks/filters.py:15
+msgid "Only own tasks"
+msgstr "Только свои задачи"
+
 #: task_manager/tasks/models.py:21
 msgid "Description"
 msgstr "Описание"
@@ -243,7 +247,7 @@ msgstr "Просмотр задачи"
 
 #: task_manager/templates/task_list.html:33
 msgid "Show"
-msgstr ""
+msgstr "Показать"
 
 #: task_manager/templates/user_list.html:13
 msgid "Username"

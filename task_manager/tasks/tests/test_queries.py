@@ -32,7 +32,7 @@ class TaskListViewTest(TaskTestCase):
         self.assertContains(response, self.task3.name)
 
     def test_filter_task_by_author(self):
-        response = self.client.get(self.url, data={"author": 2})
+        response = self.client.get(self.url, data={"own_tasks": True})
         self.assertEqual(response.context["tasks"].count(), 2)
         self.assertContains(response, self.task1.name)
         self.assertContains(response, self.task2.name)
@@ -43,14 +43,14 @@ class TaskListViewTest(TaskTestCase):
         self.assertContains(response, self.task2.name)
         self.assertContains(response, self.task3.name)
 
-    def test_filter_task_by_labels(self):
-        response = self.client.get(self.url, data={"labels": [1]})
+    def test_filter_task_by_label(self):
+        response = self.client.get(self.url, data={"labels": 1})
         self.assertEqual(response.context["tasks"].count(), 2)
         self.assertContains(response, self.task2.name)
         self.assertContains(response, self.task3.name)
 
-    def test_filter_task_by_author_and_executor(self):
-        response = self.client.get(self.url, data={"author": 2, "executor": 2})
+    def test_filter_task_by_status_and_executor(self):
+        response = self.client.get(self.url, data={"status": 3, "executor": 2})
         self.assertEqual(response.context["tasks"].count(), 1)
         self.assertContains(response, self.task2.name)
 
