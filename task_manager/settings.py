@@ -64,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 ROOT_URLCONF = "task_manager.urls"
@@ -142,3 +143,11 @@ LOCALE_PATHS = [
 STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F811
+
+ROLLBAR = {
+    "access_token": config("ROLLBAR_ACCESS_TOKEN", default=""),
+    "environment": "development" if DEBUG else "production",
+    "root": BASE_DIR,
+    "branch": config("GIT_BRANCH", default="main"),
+    "code_version": config("GIT_SHA", default="1.0.0"),
+}
