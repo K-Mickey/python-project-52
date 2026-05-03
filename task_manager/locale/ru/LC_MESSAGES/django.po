@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-03 17:29+0500\n"
+"POT-Creation-Date: 2026-05-03 17:49+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,6 +200,14 @@ msgstr "Задачу может удалить только ее автор"
 msgid "Delete task"
 msgstr "Удалить задачу"
 
+#: task_manager/templates/404.html:8
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+#: task_manager/templates/404.html:10
+msgid "Back to main page"
+msgstr "Вернуться на главную"
+
 #: task_manager/templates/delete.html:12
 msgid "Are you sure you want to delete"
 msgstr "Вы уверены, что хотите удалить"
@@ -208,8 +216,8 @@ msgstr "Вы уверены, что хотите удалить"
 msgid "Yes, delete"
 msgstr "Да, удалить"
 
-#: task_manager/templates/index.html:6 task_manager/templates/navbar.html:6
-#: task_manager/view.py:10
+#: task_manager/templates/index.html:6 task_manager/templates/layout.html:19
+#: task_manager/templates/navbar.html:6 task_manager/view.py:10
 msgid "Task manager"
 msgstr "Менеджер задач"
 

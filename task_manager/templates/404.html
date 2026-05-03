@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="m-5 p-5 d-flex flex-column align-items-center">
+    <h1 class="display-4 mb-5">404</h1>
+    <p class="lead">{% trans 'Page not found' %}</p>
+    <br>
+    <a href="{% url 'index' %}" class="lead">{% trans 'Back to main page' %}</a>
+  </div>
+{% endblock %}
