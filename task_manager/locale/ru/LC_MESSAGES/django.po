@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-03 15:48+0500\n"
+"POT-Creation-Date: 2026-05-03 17:29+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "Метки"
 #: task_manager/tasks/forms.py:11 task_manager/tasks/models.py:15
 #: task_manager/templates/label_list.html:15
 #: task_manager/templates/status_list.html:15
-#: task_manager/templates/task_list.html:43
+#: task_manager/templates/task_list.html:41
 msgid "Name"
 msgstr "Имя"
 
@@ -41,7 +41,7 @@ msgstr "Имя"
 #: task_manager/tasks/models.py:51 task_manager/templates/label_list.html:16
 #: task_manager/templates/status_list.html:16
 #: task_manager/templates/task_detail.html:29
-#: task_manager/templates/task_list.html:47
+#: task_manager/templates/task_list.html:45
 #: task_manager/templates/user_list.html:15
 msgid "Creation date"
 msgstr "Дата создания"
@@ -77,7 +77,7 @@ msgstr "Обновить метку"
 #: task_manager/tasks/views.py:63 task_manager/templates/label_list.html:29
 #: task_manager/templates/status_list.html:29
 #: task_manager/templates/task_detail.html:45
-#: task_manager/templates/task_list.html:63
+#: task_manager/templates/task_list.html:61
 #: task_manager/templates/user_list.html:29 task_manager/users/views.py:70
 msgid "Update"
 msgstr "Изменить"
@@ -110,7 +110,7 @@ msgstr "Статусы"
 
 #: task_manager/statuses/models.py:22 task_manager/tasks/models.py:27
 #: task_manager/templates/task_detail.html:25
-#: task_manager/templates/task_list.html:44
+#: task_manager/templates/task_list.html:42
 msgid "Status"
 msgstr "Статус"
 
@@ -158,12 +158,12 @@ msgid "Description"
 msgstr "Описание"
 
 #: task_manager/tasks/models.py:33 task_manager/templates/task_detail.html:17
-#: task_manager/templates/task_list.html:45
+#: task_manager/templates/task_list.html:43
 msgid "Author"
 msgstr "Автор"
 
 #: task_manager/tasks/models.py:39 task_manager/templates/task_detail.html:21
-#: task_manager/templates/task_list.html:46
+#: task_manager/templates/task_list.html:44
 msgid "Executor"
 msgstr "Исполнитель"
 
@@ -208,15 +208,39 @@ msgstr "Вы уверены, что хотите удалить"
 msgid "Yes, delete"
 msgstr "Да, удалить"
 
-#: task_manager/templates/index.html:7 task_manager/templates/navbar.html:6
+#: task_manager/templates/index.html:6 task_manager/templates/navbar.html:6
 #: task_manager/view.py:10
 msgid "Task manager"
 msgstr "Менеджер задач"
 
+#: task_manager/templates/index.html:8
+msgid "Web application for managing tasks"
+msgstr "Веб-приложение для управления задачами"
+
+#: task_manager/templates/index.html:9
+msgid "Create your own desires"
+msgstr "Создавайте свои желания"
+
+#: task_manager/templates/index.html:10
+msgid "Read the ways you've already taken"
+msgstr "Читайте пройденные вами пути"
+
+#: task_manager/templates/index.html:11
+msgid "Update your goals"
+msgstr "Обновляйте свои цели"
+
+#: task_manager/templates/index.html:12
+msgid "Delete the unnecessary and make your life easier"
+msgstr "Удаляйте ненужное и сделайте вашу жизнь легче"
+
+#: task_manager/templates/index.html:19
+msgid "Get started"
+msgstr "Начать"
+
 #: task_manager/templates/label_list.html:31
 #: task_manager/templates/status_list.html:31
 #: task_manager/templates/task_detail.html:47
-#: task_manager/templates/task_list.html:65
+#: task_manager/templates/task_list.html:63
 #: task_manager/templates/user_list.html:31
 msgid "Delete"
 msgstr "Удалить"
@@ -245,7 +269,7 @@ msgstr "Регистрация"
 msgid "View task"
 msgstr "Просмотр задачи"
 
-#: task_manager/templates/task_list.html:33
+#: task_manager/templates/task_list.html:32
 msgid "Show"
 msgstr "Показать"
 

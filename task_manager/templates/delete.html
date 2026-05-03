@@ -4,13 +4,13 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <div class="card mt-3">
+  <div class="card mt-5">
     <div class="card-header p-4">
       <h1 class="display-4">{{ title }}</h1>
     </div>
     <div class="card-body">
-      <p>{% trans 'Are you sure you want to delete' %} {{ deleting_object }}?</p>
-      <form method="post">
+      <p class="m-2">{% trans 'Are you sure you want to delete' %} {{ deleting_object }}?</p>
+      <form method="post" class="m-2 mt-4">
         {% csrf_token %}
         {% trans 'Yes, delete' as button_text %}
         {% bootstrap_button button_text button_type="submit" button_class="btn btn-danger" %}

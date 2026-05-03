@@ -2,12 +2,22 @@
 {% load i18n %}
 
 {% block content %}
-  <div class="card mt-3">
-    <div class="card-header p-4">
-      <h1 class="display-4">{% trans 'Task manager' %}</h1>
+  <div class="m-5 p-5 d-flex flex-column align-items-center">
+    <h1 class="display-4 mb-5">{% trans 'Task manager' %}</h1>
+    <div class="d-flex flex-column align-items-center gap-3">
+      <p class="lead">{% trans 'Web application for managing tasks' %}</p>
+      <p class="lead">{% trans 'Create your own desires' %}</p>
+      <p class="lead">{% trans "Read the ways you've already taken" %}</p>
+      <p class="lead">{% trans 'Update your goals' %}</p>
+      <p class="lead">{% trans 'Delete the unnecessary and make your life easier' %}</p>
+      <br>
+      {% if user.is_authenticated %}
+        {% url 'task_list' as started_link %}
+      {% else %}
+        {% url 'login' as started_link %}
+      {% endif %}
+      <a href="{{ started_link }}" class="lead">{% trans 'Get started' %}</a>
     </div>
-    <div class="card-body">
-      <p>Welcome to the task manager!</p>
-    </div>
+      
   </div>
 {% endblock %}
