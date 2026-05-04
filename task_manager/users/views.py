@@ -49,7 +49,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     extra_context = {
         "page_title": gettext_lazy("Sign Up"),
         "title": gettext_lazy("Sign Up"),
-        "button_text": gettext_lazy("Sign Up"),
+        "button_text": gettext_lazy("Register"),
     }
 
 
