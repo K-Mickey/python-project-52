@@ -6,6 +6,8 @@
 [![Python CI](https://github.com/K-Mickey/python-project-52/actions/workflows/pyci.yml/badge.svg)](https://github.com/K-Mickey/python-project-52/actions/workflows/pyci.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=K-Mickey_python-project-52&metric=coverage)](https://sonarcloud.io/summary/new_code?id=K-Mickey_python-project-52)
 
+---
+
 [Description](#description) • [Installation](#installation) • [Usage](#usage) • [Project goals](#project-goals)
 
 ## Description

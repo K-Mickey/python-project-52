@@ -1,15 +1,17 @@
-from django.test import Client, TestCase
+from django.test import Client
 
-from task_manager.helpers import load_data
 from task_manager.labels.models import Label
+from task_manager.tests import BaseTestCase, load_fixture_data
 from task_manager.users.models import User
 
 
-class LabelTestCase(TestCase):
+class LabelTestCase(BaseTestCase):
     fixtures = ["users.json", "statuses.json", "labels.json", "tasks.json"]
-    test_label = load_data("task_manager/fixtures/test_label.json")
+    test_label = load_fixture_data("test_label.json")
 
     def setUp(self):
+        super().setUp()
+
         self.user = User.objects.get(pk=1)
         self.client = Client()
         self.client.force_login(self.user)

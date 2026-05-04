@@ -7,9 +7,7 @@ from task_manager.users.tests.testcase import UserTestCase
 
 
 class ListUsersViewTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("user_list")
-        super().setUp()
+    url = reverse("user_list")
 
     def test_list_users_view(self):
         response = self.client.get(self.url)
@@ -24,9 +22,7 @@ class ListUsersViewTest(UserTestCase):
 
 
 class CreateUserViewTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("user_create")
-        super().setUp()
+    url = reverse("user_create")
 
     def test_create_user_view(self):
         response = self.client.get(self.url)
@@ -40,9 +36,7 @@ class CreateUserViewTest(UserTestCase):
 
 
 class LoginViewTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("login")
-        super().setUp()
+    url = reverse("login")
 
     def test_login_view(self):
         response = self.client.get(self.url)
@@ -56,9 +50,7 @@ class LoginViewTest(UserTestCase):
 
 
 class UpdateUserViewTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("user_update", kwargs={"pk": 1})
-        super().setUp()
+    url = reverse("user_update", kwargs={"pk": 1})
 
     def test_update_user_view(self):
         self.client.force_login(self.user1)
@@ -85,9 +77,7 @@ class UpdateUserViewTest(UserTestCase):
 
 
 class DeleteUserViewTest(UserTestCase):
-    def setUp(self):
-        self.url = reverse("user_delete", kwargs={"pk": 1})
-        super().setUp()
+    url = reverse("user_delete", kwargs={"pk": 1})
 
     def test_delete_user_view(self):
         self.client.force_login(self.user1)
