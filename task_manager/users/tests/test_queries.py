@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse
 
+from task_manager.templates_enum import Template
 from task_manager.users.forms import UserForm, UserUpdateForm
 from task_manager.users.tests.testcase import UserTestCase
 
@@ -13,7 +14,7 @@ class ListUsersViewTest(UserTestCase):
     def test_list_users_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user_list.html")
+        self.assertTemplateUsed(response, Template.USER_LIST)
 
     def test_list_users_view_context(self):
         response = self.client.get(self.url)
@@ -30,7 +31,7 @@ class CreateUserViewTest(UserTestCase):
     def test_create_user_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_create_user_view_context(self):
         response = self.client.get(self.url)
@@ -46,7 +47,7 @@ class LoginViewTest(UserTestCase):
     def test_login_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_login_view_context(self):
         response = self.client.get(self.url)
@@ -63,7 +64,7 @@ class UpdateUserViewTest(UserTestCase):
         self.client.force_login(self.user1)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_update_user_view_context(self):
         self.client.force_login(self.user1)
@@ -92,7 +93,7 @@ class DeleteUserViewTest(UserTestCase):
         self.client.force_login(self.user1)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "delete.html")
+        self.assertTemplateUsed(response, Template.DELETE)
 
     def test_delete_not_logged_user_view(self):
         response = self.client.get(self.url)

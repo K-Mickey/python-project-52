@@ -7,12 +7,13 @@ from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from task_manager.mixins import AuthorProtectionMixin, AuthRequiredMixin, BoundProtectionMixin
+from task_manager.templates_enum import Template
 from task_manager.users.forms import UserForm, UserUpdateForm
 from task_manager.users.models import User
 
 
 class UserLoginView(SuccessMessageMixin, LoginView):
-    template_name = "form.html"
+    template_name = Template.FORM
     form_class = AuthenticationForm
     next_page = reverse_lazy("index")
     success_message = gettext_lazy("You are logged in")
@@ -33,14 +34,14 @@ class UserLogoutView(LogoutView):
 
 
 class UserListView(ListView):
-    template_name = "user_list.html"
+    template_name = Template.USER_LIST
     model = User
     context_object_name = "users"
     extra_context = {"page_title": gettext_lazy("Users")}
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = User
     form_class = UserForm
     success_url = reverse_lazy("login")
@@ -58,7 +59,7 @@ class UserUpdateView(
     SuccessMessageMixin,
     UpdateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = User
     form_class = UserUpdateForm
     success_url = reverse_lazy("user_list")
@@ -78,7 +79,7 @@ class UserDeleteView(
     SuccessMessageMixin,
     DeleteView,
 ):
-    template_name = "delete.html"
+    template_name = Template.DELETE
     model = User
     success_url = reverse_lazy("user_list")
     success_message = gettext_lazy("User successfully deleted")

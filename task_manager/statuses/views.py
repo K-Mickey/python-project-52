@@ -6,10 +6,11 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from task_manager.mixins import AuthRequiredMixin, BoundProtectionMixin
 from task_manager.statuses.forms import StatusForm
 from task_manager.statuses.models import Status
+from task_manager.templates_enum import Template
 
 
 class StatusListView(AuthRequiredMixin, ListView):
-    template_name = "status_list.html"
+    template_name = Template.STATUS_LIST
     model = Status
     context_object_name = "statuses"
     extra_context = {
@@ -22,7 +23,7 @@ class StatusCreateView(
     SuccessMessageMixin,
     CreateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = Status
     form_class = StatusForm
     success_url = reverse_lazy("status_list")
@@ -39,7 +40,7 @@ class StatusUpdateView(
     SuccessMessageMixin,
     UpdateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = Status
     form_class = StatusForm
     success_url = reverse_lazy("status_list")
@@ -57,7 +58,7 @@ class StatusDeleteView(
     SuccessMessageMixin,
     DeleteView,
 ):
-    template_name = "delete.html"
+    template_name = Template.DELETE
     model = Status
     success_url = reverse_lazy("status_list")
     success_message = gettext_lazy("Status deleted successfully")

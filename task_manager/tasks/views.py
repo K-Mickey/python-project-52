@@ -8,10 +8,11 @@ from task_manager.mixins import AuthorProtectionMixin, AuthRequiredMixin
 from task_manager.tasks.filters import TaskFilter
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.models import Task
+from task_manager.templates_enum import Template
 
 
 class TaskListView(AuthRequiredMixin, FilterView):
-    template_name = "task_list.html"
+    template_name = Template.TASK_LIST
     model = Task
     filterset_class = TaskFilter
     context_object_name = "tasks"
@@ -27,7 +28,7 @@ class TaskCreateView(
     SuccessMessageMixin,
     CreateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("task_list")
@@ -50,7 +51,7 @@ class TaskUpdateView(
     SuccessMessageMixin,
     UpdateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy("task_list")
@@ -70,7 +71,7 @@ class TaskDeleteView(
     SuccessMessageMixin,
     DeleteView,
 ):
-    template_name = "delete.html"
+    template_name = Template.DELETE
     model = Task
     success_url = reverse_lazy("task_list")
     success_message = gettext_lazy("Task successfully deleted")
@@ -87,7 +88,7 @@ class TaskDeleteView(
 
 
 class TaskDetailView(AuthRequiredMixin, DetailView):
-    template_name = "task_detail.html"
+    template_name = Template.TASK_DETAIL
     model = Task
     context_object_name = "task"
 

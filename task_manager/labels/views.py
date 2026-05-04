@@ -6,10 +6,11 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from task_manager.labels.forms import LabelForm
 from task_manager.labels.models import Label
 from task_manager.mixins import AuthRequiredMixin, BoundProtectionMixin
+from task_manager.templates_enum import Template
 
 
 class LabelListView(AuthRequiredMixin, ListView):
-    template_name = "label_list.html"
+    template_name = Template.LABEL_LIST
     model = Label
     context_object_name = "labels"
 
@@ -24,7 +25,7 @@ class LabelCreateView(
     SuccessMessageMixin,
     CreateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = Label
     form_class = LabelForm
     success_url = reverse_lazy("label_list")
@@ -43,7 +44,7 @@ class LabelUpdateView(
     SuccessMessageMixin,
     UpdateView,
 ):
-    template_name = "form.html"
+    template_name = Template.FORM
     model = Label
     form_class = LabelForm
     success_url = reverse_lazy("label_list")
@@ -63,7 +64,7 @@ class LabelDeleteView(
     SuccessMessageMixin,
     DeleteView,
 ):
-    template_name = "delete.html"
+    template_name = Template.DELETE
     model = Label
     success_url = reverse_lazy("label_list")
     success_message = gettext_lazy("Label deleted successfully")

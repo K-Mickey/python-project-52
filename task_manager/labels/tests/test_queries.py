@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from task_manager.labels.forms import LabelForm
 from task_manager.labels.tests.testcase import LabelTestCase
+from task_manager.templates_enum import Template
 
 
 class LabelListViewTest(LabelTestCase):
@@ -12,7 +13,7 @@ class LabelListViewTest(LabelTestCase):
     def test_labels_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "label_list.html")
+        self.assertTemplateUsed(response, Template.LABEL_LIST)
 
     def test_labels_view_context(self):
         response = self.client.get(self.url)
@@ -35,7 +36,7 @@ class CreateLabelViewTest(LabelTestCase):
     def test_create_label_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_create_label_view_context(self):
         response = self.client.get(self.url)
@@ -57,7 +58,7 @@ class UpdateLabelViewTest(LabelTestCase):
     def test_update_label_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_update_label_view_context(self):
         response = self.client.get(self.url)
@@ -79,7 +80,7 @@ class DeleteLabelViewTest(LabelTestCase):
     def test_delete_label_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "delete.html")
+        self.assertTemplateUsed(response, Template.DELETE)
 
     def test_delete_label_view_not_logged(self):
         self.client.logout()

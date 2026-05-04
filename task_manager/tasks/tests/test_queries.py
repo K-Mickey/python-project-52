@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.tests.testcase import TaskTestCase
+from task_manager.templates_enum import Template
 
 
 class TaskListViewTest(TaskTestCase):
@@ -12,7 +13,7 @@ class TaskListViewTest(TaskTestCase):
     def test_task_list_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "task_list.html")
+        self.assertTemplateUsed(response, Template.TASK_LIST)
 
     def test_task_list_context(self):
         response = self.client.get(self.url)
@@ -63,7 +64,7 @@ class CreateTaskViewTest(TaskTestCase):
     def test_create_task_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_create_task_view_context(self):
         response = self.client.get(self.url)
@@ -85,7 +86,7 @@ class UpdateTaskViewTest(TaskTestCase):
     def test_update_task_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_update_task_view_context(self):
         response = self.client.get(self.url)
@@ -107,7 +108,7 @@ class DeleteTaskViewTest(TaskTestCase):
     def test_delete_task_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "delete.html")
+        self.assertTemplateUsed(response, Template.DELETE)
 
     def test_delete_task_view_not_logged(self):
         self.client.logout()
@@ -124,7 +125,7 @@ class TaskDetailViewTest(TaskTestCase):
     def test_task_detail_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "task_detail.html")
+        self.assertTemplateUsed(response, Template.TASK_DETAIL)
 
     def test_task_detail_view_context(self):
         response = self.client.get(self.url)

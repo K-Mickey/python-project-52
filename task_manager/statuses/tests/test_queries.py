@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from task_manager.statuses.forms import StatusForm
 from task_manager.statuses.tests.testcase import StatusTestCase
+from task_manager.templates_enum import Template
 
 
 class StatusListViewTest(StatusTestCase):
@@ -12,7 +13,7 @@ class StatusListViewTest(StatusTestCase):
     def test_statuses_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "status_list.html")
+        self.assertTemplateUsed(response, Template.STATUS_LIST)
 
     def test_statuses_view_context(self):
         response = self.client.get(self.url)
@@ -36,7 +37,7 @@ class CreateStatusViewTest(StatusTestCase):
     def test_create_status_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_create_status_view_context(self):
         response = self.client.get(self.url)
@@ -59,7 +60,7 @@ class UpdateStatusViewTest(StatusTestCase):
     def test_update_status_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "form.html")
+        self.assertTemplateUsed(response, Template.FORM)
 
     def test_update_status_view_context(self):
         response = self.client.get(self.url)
@@ -82,7 +83,7 @@ class DeleteStatusViewTest(StatusTestCase):
     def test_delete_status_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "delete.html")
+        self.assertTemplateUsed(response, Template.DELETE)
 
     def test_delete_status_view_not_logged(self):
         self.client.logout()
