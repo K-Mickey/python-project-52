@@ -34,6 +34,8 @@ class Task(Model):
     )
     executor = ForeignKey(
         User,
+        blank=True,
+        null=True,
         on_delete=PROTECT,
         related_name="tasks",
         verbose_name=gettext_lazy("Executor"),
