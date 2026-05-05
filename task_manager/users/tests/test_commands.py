@@ -138,19 +138,19 @@ class CreateUserTest(UserTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.objects.count(), self.count)
 
-    # def test_create_password_too_short(self):
-    #     user_data = self.test_user["create"]["password_too_short"]
-    #     response = self.client.post(self.url, data=user_data)
-    #
-    #     errors = response.context["form"].errors
-    #     self.assertIn("password2", errors)
-    #     self.assertEqual(
-    #         ["This password is too short. It must contain at least 8 characters."],
-    #         errors["password2"],
-    #     )
-    #
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(User.objects.count(), self.count)
+    def test_create_password_too_short(self):
+        user_data = self.test_user["create"]["password_too_short"]
+        response = self.client.post(self.url, data=user_data)
+
+        errors = response.context["form"].errors
+        self.assertIn("password2", errors)
+        self.assertEqual(
+            ["This password is too short. It must contain at least 8 characters."],
+            errors["password2"],
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(User.objects.count(), self.count)
 
     def test_create_password_missing(self):
         user_data = self.test_user["create"]["password_missing"]
