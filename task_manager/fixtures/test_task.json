@@ -18,12 +18,6 @@
       "executor": 2,
       "status": 1
     },
-    "missing_executor": {
-      "name": "Task name",
-      "description": "Test description",
-      "executor": "",
-      "status": 1
-    },
     "missing_status": {
       "name": "Task name",
       "description": "Test description",

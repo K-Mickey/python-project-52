@@ -6,7 +6,11 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from task_manager.mixins import AuthorProtectionMixin, AuthRequiredMixin, BoundProtectionMixin
+from task_manager.mixins import (
+    AuthorProtectionMixin,
+    AuthRequiredMixin,
+    BoundProtectionMixin,
+)
 from task_manager.templates_enum import Template
 from task_manager.users.forms import UserForm, UserUpdateForm
 from task_manager.users.models import User

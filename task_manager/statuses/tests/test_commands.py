@@ -40,7 +40,9 @@ class CreateStatusTest(StatusTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
-        self.assertEqual(["Status with this Name already exists."], errors["name"])
+        self.assertEqual(
+            ["Status with this Name already exists."], errors["name"]
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.statuses.count(), self.count)
@@ -81,7 +83,9 @@ class UpdateStatusTest(StatusTestCase):
     def test_update_status_success(self):
         data = self.test_status["update"]["valid"]
         with translation.override("ru"):
-            response = self.client.post(reverse("status_update", kwargs={"pk": 1}), data=data)
+            response = self.client.post(
+                reverse("status_update", kwargs={"pk": 1}), data=data
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 
@@ -96,7 +100,9 @@ class UpdateStatusTest(StatusTestCase):
 
     def test_update_status_invalid(self):
         data = self.test_status["update"]["invalid"]
-        response = self.client.post(reverse("status_update", kwargs={"pk": 1}), data=data)
+        response = self.client.post(
+            reverse("status_update", kwargs={"pk": 1}), data=data
+        )
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
@@ -110,7 +116,9 @@ class UpdateStatusTest(StatusTestCase):
 
         data = self.test_status["update"]["valid"]
         with translation.override("ru"):
-            response = self.client.post(reverse("status_update", kwargs={"pk": 1}), data=data)
+            response = self.client.post(
+                reverse("status_update", kwargs={"pk": 1}), data=data
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -126,7 +134,9 @@ class UpdateStatusTest(StatusTestCase):
 class DeleteStatusTest(StatusTestCase):
     def test_delete_status_success(self):
         with translation.override("ru"):
-            response = self.client.post(reverse("status_delete", kwargs={"pk": 1}))
+            response = self.client.post(
+                reverse("status_delete", kwargs={"pk": 1})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 
@@ -144,7 +154,9 @@ class DeleteStatusTest(StatusTestCase):
         self.client.logout()
 
         with translation.override("ru"):
-            response = self.client.post(reverse("status_delete", kwargs={"pk": 1}))
+            response = self.client.post(
+                reverse("status_delete", kwargs={"pk": 1})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -158,7 +170,9 @@ class DeleteStatusTest(StatusTestCase):
 
     def test_delete_bound_status(self):
         with translation.override("ru"):
-            response = self.client.post(reverse("status_delete", kwargs={"pk": 2}))
+            response = self.client.post(
+                reverse("status_delete", kwargs={"pk": 2})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("status_list"))
 

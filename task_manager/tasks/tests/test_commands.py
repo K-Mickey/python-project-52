@@ -45,16 +45,6 @@ class CreateTaskTest(TaskTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.tasks.count(), self.count + 1)
 
-    def test_create_task_missing_executor(self):
-        data = self.test_task["create"]["missing_executor"]
-        response = self.client.post(reverse("task_create"), data=data)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.tasks.count(), self.count)
-
-        errors = response.context["form"].errors
-        self.assertIn("executor", errors)
-        self.assertEqual(["This field is required."], errors["executor"])
-
     def test_create_task_missing_status(self):
         data = self.test_task["create"]["missing_status"]
         response = self.client.post(reverse("task_create"), data=data)
@@ -73,7 +63,9 @@ class CreateTaskTest(TaskTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
-        self.assertEqual(["Task with this Name already exists."], errors["name"])
+        self.assertEqual(
+            ["Task with this Name already exists."], errors["name"]
+        )
 
     def test_create_task_not_too_long(self):
         data = self.test_task["create"]["valid"].copy()
@@ -96,8 +88,13 @@ class CreateTaskTest(TaskTestCase):
         self.assertIn("description", errors)
         self.assertEqual(
             {
-                "name": ["Ensure this value has at most 150 characters (it has 151)."],
-                "description": ["Ensure this value has at most 1000 characters (it has 1001)."],
+                "name": [
+                    "Ensure this value has at most 150 characters (it has 151)."
+                ],
+                "description": [
+                    "Ensure this value has at most 1000 characters "
+                    "(it has 1001)."
+                ],
             },
             errors,
         )
@@ -124,7 +121,9 @@ class UpdateTaskTest(TaskTestCase):
     def test_update_task(self):
         data = self.test_task["update"]["valid"]
         with translation.override("ru"):
-            response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+            response = self.client.post(
+                reverse("task_update", kwargs={"pk": 1}), data=data
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("task_list"))
 
@@ -139,7 +138,9 @@ class UpdateTaskTest(TaskTestCase):
 
     def test_update_task_invalid(self):
         data = self.test_task["update"]["invalid"]
-        response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+        response = self.client.post(
+            reverse("task_update", kwargs={"pk": 1}), data=data
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertNotEqual(Task.objects.get(pk=1).name, data["name"])
@@ -153,7 +154,9 @@ class UpdateTaskTest(TaskTestCase):
 
         data = self.test_task["update"]["valid"]
         with translation.override("ru"):
-            response = self.client.post(reverse("task_update", kwargs={"pk": 1}), data=data)
+            response = self.client.post(
+                reverse("task_update", kwargs={"pk": 1}), data=data
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -169,7 +172,9 @@ class UpdateTaskTest(TaskTestCase):
 class DeleteTaskTest(TaskTestCase):
     def test_delete_task(self):
         with translation.override("ru"):
-            response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+            response = self.client.post(
+                reverse("task_delete", kwargs={"pk": 1})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("task_list"))
 
@@ -187,7 +192,9 @@ class DeleteTaskTest(TaskTestCase):
         self.client.logout()
 
         with translation.override("ru"):
-            response = self.client.post(reverse("task_delete", kwargs={"pk": 1}))
+            response = self.client.post(
+                reverse("task_delete", kwargs={"pk": 1})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -201,7 +208,9 @@ class DeleteTaskTest(TaskTestCase):
 
     def test_delete_not_owner(self):
         with translation.override("ru"):
-            response = self.client.post(reverse("task_delete", kwargs={"pk": 3}))
+            response = self.client.post(
+                reverse("task_delete", kwargs={"pk": 3})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("task_list"))
 

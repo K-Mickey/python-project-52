@@ -13,7 +13,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="task",
             name="description",
-            field=models.TextField(blank=True, default=1, max_length=1000, verbose_name="Description"),
+            field=models.TextField(
+                blank=True,
+                default=1,
+                max_length=1000,
+                verbose_name="Description",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(

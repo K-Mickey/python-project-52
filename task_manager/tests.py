@@ -10,6 +10,8 @@ class BaseTestCase(TestCase):
 
 
 def load_fixture_data(fixture_name):
-    file_path = settings.BASE_DIR / "task_manager" / "fixtures" / f"{fixture_name}"
+    file_path = (
+        settings.BASE_DIR / "task_manager" / "fixtures" / f"{fixture_name}"
+    )
     file_data = file_path.read_text()
     return json.loads(file_data)

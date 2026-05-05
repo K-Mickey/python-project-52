@@ -41,7 +41,9 @@ class CreateLabelTest(LabelTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
-        self.assertEqual(["Label with this Name already exists."], errors["name"])
+        self.assertEqual(
+            ["Label with this Name already exists."], errors["name"]
+        )
 
     def test_create_label_too_long(self):
         data = {"name": "a" * 101}
@@ -51,7 +53,10 @@ class CreateLabelTest(LabelTestCase):
 
         errors = response.context["form"].errors
         self.assertIn("name", errors)
-        self.assertEqual(["Ensure this value has at most 100 characters (it has 101)."], errors["name"])
+        self.assertEqual(
+            ["Ensure this value has at most 100 characters (it has 101)."],
+            errors["name"],
+        )
 
     def test_create_label_not_logged_user(self):
         self.client.logout()
@@ -74,7 +79,9 @@ class UpdateLabelTest(LabelTestCase):
     def test_update_label(self):
         data = self.test_label["update"]["valid"]
         with translation.override("ru"):
-            response = self.client.post(reverse("label_update", kwargs={"pk": 1}), data=data)
+            response = self.client.post(
+                reverse("label_update", kwargs={"pk": 1}), data=data
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("label_list"))
 
@@ -89,7 +96,9 @@ class UpdateLabelTest(LabelTestCase):
 
     def test_update_label_invalid(self):
         data = self.test_label["update"]["invalid"]
-        response = self.client.post(reverse("label_update", kwargs={"pk": 1}), data=data)
+        response = self.client.post(
+            reverse("label_update", kwargs={"pk": 1}), data=data
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Label.objects.count(), self.count)
 
@@ -102,7 +111,9 @@ class UpdateLabelTest(LabelTestCase):
         self.client.logout()
         data = self.test_label["update"]["valid"]
         with translation.override("ru"):
-            response = self.client.post(reverse("label_update", kwargs={"pk": 1}), data=data)
+            response = self.client.post(
+                reverse("label_update", kwargs={"pk": 1}), data=data
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -118,7 +129,9 @@ class UpdateLabelTest(LabelTestCase):
 class DeleteLabelTest(LabelTestCase):
     def test_delete_label(self):
         with translation.override("ru"):
-            response = self.client.post(reverse("label_delete", kwargs={"pk": 3}))
+            response = self.client.post(
+                reverse("label_delete", kwargs={"pk": 3})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("label_list"))
 
@@ -135,7 +148,9 @@ class DeleteLabelTest(LabelTestCase):
     def test_delete_label_not_logged_user(self):
         self.client.logout()
         with translation.override("ru"):
-            response = self.client.post(reverse("label_delete", kwargs={"pk": 3}))
+            response = self.client.post(
+                reverse("label_delete", kwargs={"pk": 3})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("login"))
 
@@ -149,7 +164,9 @@ class DeleteLabelTest(LabelTestCase):
 
     def test_delete_bound_label(self):
         with translation.override("ru"):
-            response = self.client.post(reverse("label_delete", kwargs={"pk": 2}))
+            response = self.client.post(
+                reverse("label_delete", kwargs={"pk": 2})
+            )
             self.assertEqual(response.status_code, 302)
             self.assertRedirects(response, reverse("label_list"))
 

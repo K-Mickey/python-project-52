@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="status",
             name="date_created",
-            field=models.DateTimeField(auto_now_add=True, verbose_name="Creation date"),
+            field=models.DateTimeField(
+                auto_now_add=True, verbose_name="Creation date"
+            ),
         ),
     ]

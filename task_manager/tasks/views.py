@@ -77,7 +77,9 @@ class TaskDeleteView(
     success_message = gettext_lazy("Task successfully deleted")
     author_field = "author"
     permission_url = reverse_lazy("task_list")
-    permission_message = gettext_lazy("The task can be deleted only by its author")
+    permission_message = gettext_lazy(
+        "The task can be deleted only by its author"
+    )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
