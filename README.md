@@ -19,7 +19,7 @@ The application has an adaptive convenient interface for working with tasks, whi
 As a database, used [PostgreSQL](https://www.postgresql.org/) or [SQLite](https://www.sqlite.org/).
 The project is connected to the [Rollbar](https://rollbar.com/) service for error tracking.
 
-This application is deployed on [Render](https://render.com/), so here is [the link](https://github.com/K-Mickey/python-project-52).
+This application is deployed on [Render](https://render.com/), so here is [the link](https://python-project-52-aluf.onrender.com).
 
 ### Features
 
