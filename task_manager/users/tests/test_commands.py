@@ -145,7 +145,7 @@ class CreateUserTest(UserTestCase):
         errors = response.context["form"].errors
         self.assertIn("password2", errors)
         self.assertEqual(
-            ["This password is too short. It must contain at least 6 characters."],
+            ["This password is too short. It must contain at least 8 characters."],
             errors["password2"],
         )
 
