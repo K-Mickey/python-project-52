@@ -21,11 +21,12 @@ from django.urls import include, path
 from django.views.i18n import set_language
 
 from task_manager.users.views import UserLoginView, UserLogoutView
-from task_manager.view import IndexView
+from task_manager.view import HealthView, IndexView
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("i18n/setlang/", set_language, name="set_language"),
+    path("health/", HealthView.as_view(), name="health"),
 ]
 
 urlpatterns += i18n_patterns(
